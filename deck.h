@@ -2,6 +2,7 @@
 #define DECK_H
 
 #include <random>
+#include <algorithm>
 #include "hand.h"
 #include "generic_player.h"
 
@@ -14,9 +15,9 @@ public:
 
     void Populate();
 
-    void Shuffle();
+    void Shuffle(unsigned int seed);
 
-    void Deal(Hand& aHand);
+    bool Deal(Hand& aHand);
 
     void AdditionalCards(Generic_Player& aGenericPlayer);
 };

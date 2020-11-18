@@ -18,18 +18,20 @@ int main()
     cout << "Enter player names" << endl;
     std::vector<std::string> names(nP);
     cin>>ws;
+    cin>>ws;
 
     for (int i = 0; i<nP; ++i) {
         getline(cin,names[i]);
     }
 
-    Player P1("P1");
-    Deck deck1;
-    deck1.Deal(P1);
-    deck1.AdditionalCards(P1);
-    cout << P1 << endl;
-    P1.Clear();
-    cout << P1 << endl;
-
-
+    Game newgame(names);
+    bool flag = 1;
+    while (flag) {
+    newgame.Play();
+    flag = 0;
+    cout << "Do you want to play another round? (Y/N): ";
+    char response;
+    cin >> response;
+    flag = (response == 'y' || response == 'Y');
+    }
 }
