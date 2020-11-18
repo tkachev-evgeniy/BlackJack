@@ -1,0 +1,5 @@
+#ifndef RANKS_H
+#define RANKS_H
+enum suits{ CLUBS, DIAMONDS, HEARTS, SPADES};
+enum ranks{ ACE=1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN , KING};
+#endif // RANKS_H
