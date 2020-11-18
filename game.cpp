@@ -1,11 +1,13 @@
 //Если делать все по методичке, то игра может уйти в бесконечный цикл, когда закончатся карты в колоде.
 //В ситуации когда дилеру еще нужны карты а колода их дать не может.
+
+//А теперь перепишу циклы по игрокам через for (auto : vector) потому что мне так больше нравится. И хочу научиться так делать.
 #include "game.h"
 
 Game::Game(const std::vector<std::string> &names)
 {
-    for (auto i : names) {
-        m_Players.push_back(Player(i));
+    for (auto name : names) {
+        m_Players.push_back(Player(name));
     }
 
     unsigned int seed = static_cast<unsigned int>(time(0));
@@ -14,12 +16,11 @@ Game::Game(const std::vector<std::string> &names)
 
 void Game::Play() {
 
-    std::vector<Player>::iterator pPlayer;
     for (int i = 0; i < 2; ++i)
     {
-        for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)
+        for (auto&& a_Player : m_Players)
         {
-            m_Deck.Deal(*pPlayer);
+            m_Deck.Deal(a_Player);
         }
         m_Deck.Deal(m_House);
     }
@@ -27,16 +28,16 @@ void Game::Play() {
 
     m_House.FlipFirstCard();
 
-    for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)
+    for (auto&& a_Player : m_Players)
     {
-        std::cout << *pPlayer << std::endl;
+        std::cout << a_Player << std::endl;
     }
     std::cout << m_House << std::endl;
 
 
-    for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)
+    for (auto&& a_Player : m_Players)
     {
-        m_Deck.AdditionalCards(*pPlayer);
+        m_Deck.AdditionalCards(a_Player);
     }
 
 
@@ -49,33 +50,32 @@ void Game::Play() {
     if (m_House.isBusted())
     {
 
-        for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)
+        for (auto&& a_Player : m_Players)
         {
-            if (!(pPlayer->isBusted()))
+            if (!(a_Player.isBusted()))
             {
-                pPlayer->Win();
+                a_Player.Win();
             }
         }
     }
     else
     {
 
-        for (pPlayer = m_Players.begin(); pPlayer != m_Players.end();
-             ++pPlayer)
+        for (auto&& a_Player : m_Players)
         {
-            if (!(pPlayer->isBusted()))
+            if (!(a_Player.isBusted()))
             {
-                if (pPlayer->GetTotal() > m_House.GetTotal())
+                if (a_Player.GetTotal() > m_House.GetTotal())
                 {
-                    pPlayer->Win();
+                    a_Player.Win();
                 }
-                else if (pPlayer->GetTotal() < m_House.GetTotal())
+                else if (a_Player.GetTotal() < m_House.GetTotal())
                 {
-                    pPlayer->Lose();
+                    a_Player.Lose();
                 }
                 else
                 {
-                    pPlayer->Push();
+                    a_Player.Push();
                 }
             }
         }
@@ -83,9 +83,9 @@ void Game::Play() {
     }
 
 
-    for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)
+    for (auto&& i : m_Players)
     {
-        pPlayer->Clear();
+        i.Clear();
     }
     m_House.Clear();
 
